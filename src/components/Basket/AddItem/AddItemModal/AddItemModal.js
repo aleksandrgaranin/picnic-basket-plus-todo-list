@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import Input from '../../../UI/Input/Input';
 import Button from '../../../UI/Button/Button';

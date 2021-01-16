@@ -1,5 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/index";
+
+import axios from "../../axios-orders";
 import "./Todo.css";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Todo extends Component {
   constructor(props) {
@@ -7,7 +12,6 @@ class Todo extends Component {
     this.state = {
       todoList: [],
       activeItem: {
-        id: null,
         title: "",
         completed: false,
       },
@@ -20,6 +24,12 @@ class Todo extends Component {
     this.startEdit = this.startEdit.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.strikeUnstrike = this.strikeUnstrike.bind(this);
+    this.queryParams =
+      "?auth=" +
+      this.props.token +
+      '&orderBy="userId"&equalTo="' +
+      this.props.userId +
+      '"';
   }
 
   getCookie(name) {
@@ -43,13 +53,25 @@ class Todo extends Component {
 
   fetchTasks() {
     console.log("Fetching ...");
-    fetch("http://127.0.0.1:8000/api/task-list/")
-      .then((res) => res.json())
-      .then((data) => {
+
+    axios
+      .get(`/todolist.json` + this.queryParams)
+      .then((res) => {
+        console.log(res);
+        let todoData = [];
+        for (let key in res.data) {
+          todoData.push({
+            ...res.data[key],
+            id: key,
+          });
+        }
         this.setState({
-          todoList: data,
+          todoList: todoData,
         });
-        console.log(data);
+        console.log("todoList:", this.state.todoList);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -71,27 +93,37 @@ class Todo extends Component {
     console.log("Item:", this.state.activeItem);
 
     let csrftoken = this.getCookie("csrftoken");
-    let url = `http://127.0.0.1:8000/api/task-create/`;
+    let url = `/todolist/`;
 
     if (this.state.editing === true) {
-      url = `http://127.0.0.1:8000/api/task-update/${this.state.activeItem.id}/`;
+      url = `/todolist/${this.state.activeItem.id}.json?auth=`;
       this.setState({
         editing: false,
       });
     }
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        "X-CSRFToken": csrftoken,
-      },
-      body: JSON.stringify(this.state.activeItem),
-    })
+    console.log(JSON.stringify(this.state.activeItem));
+    const task = {
+      taskData: this.state.activeItem.name,
+      completed: this.state.activeItem.completed,
+      userId: this.props.userId,
+    };
+    axios
+      .post(
+        url + this.props.token,
+        task
+        //   {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-type": "application/json",
+        //     "X-CSRFToken": csrftoken,
+        //   },
+        //   body: JSON.stringify(this.state.activeItem),
+        // }
+      )
       .then((res) => {
         this.fetchTasks();
         this.setState({
           activeItem: {
-            id: null,
             title: "",
             completed: false,
           },
@@ -214,4 +246,22 @@ class Todo extends Component {
   }
 }
 
-export default Todo;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.ordr.loading,
+    token: state.auth.token,
+    userId: state.auth.userId,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFetchOrder: (token, userId) =>
+      dispatch(actions.fetchOrders(token, userId)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(Todo, axios));

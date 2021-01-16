@@ -12,8 +12,10 @@ class Todo extends Component {
     this.state = {
       todoList: [],
       activeItem: {
+        id: null,
         title: "",
         completed: false,
+        userId: this.props.userId,
       },
       editing: false,
     };
@@ -57,7 +59,7 @@ class Todo extends Component {
     axios
       .get(`/todolist.json` + this.queryParams)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         let todoData = [];
         for (let key in res.data) {
           todoData.push({
@@ -68,7 +70,7 @@ class Todo extends Component {
         this.setState({
           todoList: todoData,
         });
-        console.log("todoList:", this.state.todoList);
+        // console.log("todoList:", this.state.todoList);
       })
       .catch((err) => {
         console.log(err);
@@ -90,42 +92,40 @@ class Todo extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("Item:", this.state.activeItem);
 
-    let csrftoken = this.getCookie("csrftoken");
-    let url = `/todolist/`;
+    let url = `/todolist.json?auth=`;    
 
     if (this.state.editing === true) {
       url = `/todolist/${this.state.activeItem.id}.json?auth=`;
       this.setState({
         editing: false,
       });
+      axios
+        .put(url + this.props.token, this.state.activeItem)
+        .then((res) => {
+          this.fetchTasks();
+          this.setState({
+            activeItem: {
+              identifier: null,
+              title: "",
+              completed: false,
+              userId: this.props.userId,
+            },
+          });
+        })
+        .catch((err) => console.log("ERROR:", err));
     }
-    console.log(JSON.stringify(this.state.activeItem));
-    const task = {
-      taskData: this.state.activeItem.name,
-      completed: this.state.activeItem.completed,
-      userId: this.props.userId,
-    };
+
     axios
-      .post(
-        url + this.props.token,
-        task
-        //   {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-type": "application/json",
-        //     "X-CSRFToken": csrftoken,
-        //   },
-        //   body: JSON.stringify(this.state.activeItem),
-        // }
-      )
+      .post(url + this.props.token, this.state.activeItem)
       .then((res) => {
         this.fetchTasks();
         this.setState({
           activeItem: {
+            identifier: null,
             title: "",
             completed: false,
+            userId: this.props.userId,
           },
         });
       })
@@ -133,6 +133,7 @@ class Todo extends Component {
   }
 
   startEdit(task) {
+    // console.log(task);
     this.setState({
       activeItem: task,
       editing: true,
@@ -140,16 +141,10 @@ class Todo extends Component {
   }
 
   deleteItem(task) {
-    const csrftoken = this.getCookie("csrftoken");
-    console.log(task);
+    // console.log(task);
 
-    fetch(`http://127.0.0.1:8000/api/task-delete/${task.id}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-        "X-CSRFToken": csrftoken,
-      },
-    })
+    axios
+      .delete(`/todolist/${task.id}.json?auth=` + this.props.token)
       .then((res) => {
         this.fetchTasks();
       })
@@ -159,15 +154,11 @@ class Todo extends Component {
   strikeUnstrike(task) {
     task.completed = !task.completed;
     console.log("Task:", task.completed);
-    const csrftoken = this.getCookie("csrftoken");
-    fetch(`http://127.0.0.1:8000/api/task-update/${task.id}/`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        "X-CSRFToken": csrftoken,
-      },
-      body: JSON.stringify(task),
-    })
+    axios
+      .put(
+        `/todolist/${task.id}.json?auth=` + this.props.token,
+        JSON.stringify(task)
+      )
       .then((res) => {
         this.fetchTasks();
       })

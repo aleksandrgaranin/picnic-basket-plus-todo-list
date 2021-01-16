@@ -1,13 +1,11 @@
 .AddItemModal {
-    
-    width: auto;
-    text-align: center;   
-    padding: 10px;
-    box-sizing: border-box;
+  width: auto;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .Form {
-    display: flex;
-    flex-flow: column;
+  display: flex;
+  flex-flow: column;
 }
-

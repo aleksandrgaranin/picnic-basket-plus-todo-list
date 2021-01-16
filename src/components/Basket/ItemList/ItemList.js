@@ -99,6 +99,7 @@ const ItemList = (props) => {
             <Item
               key={item.id}
               id={item.id}
+              category={item.itemData.category}
               name={item.itemData.name}
               quantity={item.itemData.quantity}
               price={item.itemData.price}

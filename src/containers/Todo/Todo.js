@@ -55,11 +55,9 @@ class Todo extends Component {
 
   fetchTasks() {
     console.log("Fetching ...");
-
     axios
       .get(`/todolist.json` + this.queryParams)
       .then((res) => {
-        // console.log(res);
         let todoData = [];
         for (let key in res.data) {
           todoData.push({
@@ -70,7 +68,6 @@ class Todo extends Component {
         this.setState({
           todoList: todoData,
         });
-        // console.log("todoList:", this.state.todoList);
       })
       .catch((err) => {
         console.log(err);
@@ -92,9 +89,8 @@ class Todo extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    let url = `/todolist.json?auth=`;    
-
+    let url = `/todolist.json?auth=`;
+    
     if (this.state.editing === true) {
       url = `/todolist/${this.state.activeItem.id}.json?auth=`;
       this.setState({
@@ -133,7 +129,6 @@ class Todo extends Component {
   }
 
   startEdit(task) {
-    // console.log(task);
     this.setState({
       activeItem: task,
       editing: true,
@@ -141,8 +136,6 @@ class Todo extends Component {
   }
 
   deleteItem(task) {
-    // console.log(task);
-
     axios
       .delete(`/todolist/${task.id}.json?auth=` + this.props.token)
       .then((res) => {

@@ -4,15 +4,33 @@ import classes from "./ItemDetail.module.css";
 
 import Button from "../../../UI/Button/Button";
 import UpdateItem from "../UpdateItem/UpdateItem";
-import { string } from "prop-types";
 
 const ItemDetail = (props) => {
+  const color = (category) => {
+    console.log(category)
+    switch (category) {
+      case "grocery":
+        return "green";
+      case "electronics":
+        return "blue";
+      case "household":
+        return "orange";
+      case "office":
+        return "black";
+      case "clothes":
+        return "purple";
+      case "other":
+        return "gray";
+      default:
+        return "gray";
+    }
+    
+  };
+
   let detail = (
     <div className={classes.ItemDetails}>
       <p style={{ color: "blueviolet" }}>{props.name}</p>
-      <p style={{ color: "blue" }}>
-        {props.category ? props.category.toUpperCase() : null}
-      </p>
+      <p style={{ color: color(props.category) }}>{props.category.toUpperCase()}</p>
     </div>
   );
   let purchased = null;
@@ -30,9 +48,7 @@ const ItemDetail = (props) => {
       <div>
         <div className={classes.ItemDetails}>
           <p style={{ color: "blueviolet" }}>Name: {props.name}</p>
-          <p style={{ color: "blue" }}>
-            {props.category ? props.category.toUpperCase() : null}
-          </p>
+          <p style={{ color: color(props.category) }}>{props.category.toUpperCase()}</p>
         </div>
         <div className={classes.ItemDetails}>
           <p>Price: ${props.price}</p>

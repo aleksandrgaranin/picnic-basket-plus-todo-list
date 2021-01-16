@@ -19,6 +19,7 @@ const AddItemModal = (props) => {
           { value: "electronics", displayValue: "Electronics" },
           { value: "household", displayValue: "Household" },
           { value: "office", displayValue: "Office" },
+          { value: "clothes", displayValue: "Clothes" },
           { value: "other", displayValue: "Other" },
         ],
       },

@@ -1,0 +1,20 @@
+.Item {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+   
+    border: 1px solid rgb(250, 119, 12);
+    box-shadow: 0 2px 3px #ccc;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+.Item p{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 0px;
+    margin: 0;
+}

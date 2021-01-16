@@ -1,0 +1,22 @@
+.ItemDetails {
+    display: flex;
+    color: darkblue;
+    justify-content: center;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+}
+
+.ItemDetails p{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    padding: 0px;
+}
+
+.Buttons{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    margin: auto;    
+}

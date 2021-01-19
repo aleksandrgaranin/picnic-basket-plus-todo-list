@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
+import classes from "./Todo.module.css";
 
 import axios from "../../axios-orders";
-import "./Todo.css";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Todo extends Component {
@@ -164,10 +164,10 @@ class Todo extends Component {
 
     return (
       <div className="container">
-        <div id="task-container">
-          <div id="form-wrapper">
+        <div className={classes.TaskContainer}>
+          <div className={classes.FormWrapper}>
             <form if="form" onSubmit={this.handleSubmit}>
-              <div className="flex-wrapper">
+              <div className={classes.FlexWrapper}>
                 <div style={{ flex: 6 }}>
                   <input
                     onChange={this.handleChange}
@@ -193,7 +193,7 @@ class Todo extends Component {
           <div id="list-wrapper">
             {tasks.map((task, index) => {
               return (
-                <div key={index} className="task-wrapper flex-wrapper">
+                <div key={index} className={classes.TaskWrapper }>
                   <div
                     onClick={() => self.strikeUnstrike(task)}
                     style={{ flex: 7 }}

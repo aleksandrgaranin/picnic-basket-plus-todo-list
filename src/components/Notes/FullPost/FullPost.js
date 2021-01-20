@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from '../../../axios-orders';
+import { unmountComponentAtNode } from "react-dom";
 
 import { connect } from "react-redux";
 import * as actions from '../../../store/actions/index';
@@ -7,11 +8,13 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 
 import './FullPost.css';
+import { Redirect } from 'react-router-dom';
 
 class FullPost extends Component {
     state = {
         loadedPost: null
     }
+
     queryParams =
       "?auth=" +
       this.props.token +
@@ -26,15 +29,18 @@ class FullPost extends Component {
 
     componentDidUpdate(){
         this.loadData()
+        
     }
 
     loadData(){
         if(this.props.match.params.id){
-            if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)){
-                axios.get(`/posts/${this.props.match.params.id}.json` + this.queryParams)
+            if(this.state.loadedPost === null || (this.state.loadedPost && this.state.loadedPost.id !== this.props.match.params.id)){
+                axios.get(`/posts/${this.props.match.params.id}.json?auth=` + this.props.token)
                     .then(response=>{
                         console.log(response)
-                        this.setState({loadedPost:response.data})
+                        this.setState({loadedPost:{
+                            data: response.data,
+                            id: this.props.match.params.id}})
                     }
                     ).catch(error => {
                         console.log(error);
@@ -46,7 +52,10 @@ class FullPost extends Component {
     }
 
     deletePostHandler =()=> {
-        axios.delete(`/posts/${this.props.match.params.id}.json?auth=` + this.props.token).then(response => { console.log(response)});
+        axios.delete(`/posts/${this.props.match.params.id}.json?auth=` + this.props.token)
+        .then(response => { 
+            this.props.history.push('/');
+        });
     }
 
     render () {
@@ -56,16 +65,15 @@ class FullPost extends Component {
         }
         if(this.state.loadedPost){ post = (
             <div className="FullPost">
-                <h1>{this.state.loadedPost.title}</h1>
-                <p>{this.state.loadedPost.body}</p>
+                <h1>{this.state.loadedPost.data.title}</h1>
+                <p>{this.state.loadedPost.data.body}</p>
                 <div className="Edit">
                     <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
                 </div>
             </div>
 
         );
-    }
-       
+    }       
         return post;
     }
 }

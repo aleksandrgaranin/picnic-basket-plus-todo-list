@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 
 import { connect } from "react-redux";
 import * as actions from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import { NavLink, Redirect } from 'react-router-dom';
 
 import './NewPost.css';
 import axios from '../../../axios-orders';
@@ -48,6 +48,23 @@ class NewPost extends Component {
             redirect = <Redirect to="/posts" />
         }
         return (
+            <div>
+
+                <header>
+                        <nav className="Nav">
+                            <ul>
+                                <li><NavLink 
+                                    to="/posts"
+                                    exact
+                                    activeClassName="my-active"
+                                    activeStyle={{
+                                        color: '#fa923f',
+                                        textDecoration: 'underline'
+                                    }}
+                                >Posts</NavLink></li>
+                            </ul>
+                        </nav>
+                    </header>  
             <div className="NewPost">
                 {redirect}
                 <h1>Add a Post</h1>
@@ -56,6 +73,7 @@ class NewPost extends Component {
                 <label>Content</label>
                 <textarea rows="4" value={this.state.content} onChange={(event) => this.setState({content: event.target.value})} />
                 <button onClick={this.postDadaHandler}>Add Post</button>
+            </div>
             </div>
         );
     }

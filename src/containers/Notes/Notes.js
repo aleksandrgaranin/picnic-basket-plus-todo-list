@@ -26,7 +26,7 @@ class Notes extends Component {
                                     }}
                                 >Posts</NavLink></li>
                                 <li><NavLink to={{
-                                    pathname: '/new-post',
+                                    pathname: "/new-post",
                                     hash: '#submit',
                                     search: '?quick-submit=true'
                                 }}>New Post</NavLink></li>

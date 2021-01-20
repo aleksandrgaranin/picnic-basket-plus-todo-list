@@ -7,7 +7,6 @@ import UpdateItem from "../UpdateItem/UpdateItem";
 
 const ItemDetail = (props) => {
   const color = (category) => {
-    console.log(category)
     switch (category) {
       case "grocery":
         return "green";

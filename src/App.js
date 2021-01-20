@@ -28,6 +28,14 @@ const Todo = React.lazy(() => {
   return import("./containers/Todo/Todo");
 });
 
+const Notes = React.lazy(() => {
+  return import("./containers/Notes/Notes");
+});
+
+const NewPost = React.lazy(() => {
+    return import("./components/Notes/NewPost/NewPost");
+  });
+
 const App = (props) => {
   const { onTryAutoSignup } = props;
   useEffect(() => {
@@ -52,6 +60,8 @@ const App = (props) => {
         />
         <Route path="/add" render={(props) => <AddItems {...props} />} />
         <Route path="/todo" render={(props) => <Todo {...props} />} />
+        <Route path="/posts" render={(props) => <Notes {...props} />} />
+        <Route path="/new-post" render={(props) => <NewPost {...props} />} />
         <Route path="/" exact component={BasketList} />
         <Redirect to="/" />
       </Switch>

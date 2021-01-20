@@ -26,8 +26,6 @@ const ItemList = (props) => {
     axios
       .get("/list.json" + queryParams)
       .then((res) => {
-          console.log(res)
-          
         const fetchedList = [];
         for (let key in res.data) {
           if (!res.data[key].purchased) {

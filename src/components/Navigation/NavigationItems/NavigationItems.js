@@ -18,6 +18,9 @@ const navigationItems = (props) => (
     {props.isAuthenticated ? (
       <NavigationItem link="/todo">Todo List</NavigationItem>
     ) : null}
+    {props.isAuthenticated ? (
+      <NavigationItem link="/posts">Notes</NavigationItem>
+    ) : null}
 
     {!props.isAuthenticated ? (
       <NavigationItem link="/auth">Authenticate</NavigationItem>

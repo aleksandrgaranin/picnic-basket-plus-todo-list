@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { connect } from "react-redux";
+import * as actions from '../../../store/actions/index';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+
 import './NewPost.css';
-import axios from '../../../axios-posts';
+import axios from '../../../axios-orders';
 
 class NewPost extends Component {
     state = {
         title: '',
-        content: '',
-        author: 'Max',
-        submitted: false
-    }
+        content: '',        
+        submitted: false,
+        userId: ''
+        
+    };
+
+    queryParams =
+      "?auth=" +
+      this.props.token +
+      '&orderBy="userId"&equalTo="' +
+      this.props.userId +
+      '"';
 
     componentDidMount(){
         console.log(this.props);
@@ -20,9 +32,9 @@ class NewPost extends Component {
         const data ={
             title: this.state.title,
             body: this.state.content,
-            author: this.state.author
+            userId: this.props.userId
         }
-        axios.post('/posts', data)
+        axios.post('/posts.json?auth=' + this.props.token, data)
             .then(responce=> {
                 console.log(responce);
                 // this.props.history.push('/posts');
@@ -43,15 +55,28 @@ class NewPost extends Component {
                 <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
                 <label>Content</label>
                 <textarea rows="4" value={this.state.content} onChange={(event) => this.setState({content: event.target.value})} />
-                <label>Author</label>
-                <select value={this.state.author} onChange={(event) => this.setState({author: event.target.value})}>
-                    <option value="Max">Max</option>
-                    <option value="Manu">Manu</option>
-                </select>
                 <button onClick={this.postDadaHandler}>Add Post</button>
             </div>
         );
     }
 }
 
-export default NewPost;
+const mapStateToProps = (state) => {
+    return {
+      loading: state.ordr.loading,
+      token: state.auth.token,
+      userId: state.auth.userId,
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      onFetchOrder: (token, userId) =>
+        dispatch(actions.fetchOrders(token, userId)),
+    };
+  };
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withErrorHandler(NewPost, axios));

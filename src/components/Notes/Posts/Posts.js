@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Post from './Post/Post';
 import { Route } from 'react-router-dom';
 import FullPost from '../FullPost/FullPost';
-import axios from '../../../axios-posts';
+import axios from '../../../axios-orders';
 import './Posts.css';
 
 import { connect } from "react-redux";
@@ -14,19 +14,26 @@ class Posts extends Component {
     state = {
         posts: []        
     }
+    queryParams =
+      "?auth=" +
+      this.props.token +
+      '&orderBy="userId"&equalTo="' +
+      this.props.userId +
+      '"';
 
     componentDidMount(){
         console.log(this.props);
-        axios.get('/posts')
-            .then(response => {
-                const posts =response.data.slice(0, 4);
-                const updatedPosts = posts.map(post =>{
-                    return {
-                        ...post,
-                        author: 'Max'
-                    }
-                });
-                this.setState({posts:updatedPosts});
+        axios.get('/posts.json' + this.queryParams)
+            .then(res => {
+                console.log(res)
+                let posts = [];
+                for (let key in res.data) {
+                    posts.push({
+                        ...res.data[key],
+                        id: key,
+                    });
+                }
+                this.setState({posts:posts});
                 //console.log(updatedPosts);
             }).catch(error => {
                 console.log(error);
@@ -42,6 +49,7 @@ class Posts extends Component {
 
     render(){
         let posts = <p style={{textAlign:'center'}}>Something went wrong!</p>;
+        console.log(this.state.posts)
         if (!this.state.error){
             posts = this.state.posts.map(post => {
                 return (

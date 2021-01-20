@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import axios from '../../../axios-posts';
+import axios from '../../../axios-orders';
+
+import { connect } from "react-redux";
+import * as actions from '../../../store/actions/index';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+
 
 import './FullPost.css';
 
@@ -7,6 +12,12 @@ class FullPost extends Component {
     state = {
         loadedPost: null
     }
+    queryParams =
+      "?auth=" +
+      this.props.token +
+      '&orderBy="userId"&equalTo="' +
+      this.props.userId +
+      '"';
 
     componentDidMount(){
         // console.log(this.props);
@@ -20,19 +31,22 @@ class FullPost extends Component {
     loadData(){
         if(this.props.match.params.id){
             if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)){
-                axios.get('/posts/'+ this.props.match.params.id)
+                axios.get(`/posts/${this.props.match.params.id}.json` + this.queryParams)
                     .then(response=>{
-                        //console.log(response)
+                        console.log(response)
                         this.setState({loadedPost:response.data})
                     }
-                );
+                    ).catch(error => {
+                        console.log(error);
+                    // this.setState({error: true});
+                    });
             }
             
         }       
     }
 
     deletePostHandler =()=> {
-        axios.delete('/posts/'+ this.props.match.params.id).then(response => { console.log(response)});
+        axios.delete(`/posts/${this.props.match.params.id}.json?auth=` + this.props.token).then(response => { console.log(response)});
     }
 
     render () {
@@ -55,5 +69,22 @@ class FullPost extends Component {
         return post;
     }
 }
-
-export default FullPost;
+const mapStateToProps = (state) => {
+    return {
+      loading: state.ordr.loading,
+      token: state.auth.token,
+      userId: state.auth.userId,
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      onFetchOrder: (token, userId) =>
+        dispatch(actions.fetchOrders(token, userId)),
+    };
+  };
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withErrorHandler(FullPost, axios));

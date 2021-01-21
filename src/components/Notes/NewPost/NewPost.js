@@ -137,11 +137,11 @@ const NewPost = (props) => {
                         color: '#fa923f',
                         textDecoration: 'underline'
                       }}
-                    >Posts</NavLink></li>
+                    >Notes</NavLink></li>
               </ul>
             </nav>
           </header> 
-          <p style={{ color: "blueviolet" }}>Add a Post</p>
+          <p style={{ color: "blueviolet" }}>Add a Note</p>
           <form className={classes.Form} onSubmit={submitHandler}>
             {form}
             <Button btnType="Success" disabled={!formIsValid}>

@@ -63,7 +63,7 @@ class FullPost extends Component {
         }
         if(this.state.loadedPost){ post = (
             <div className="FullPost">
-                <h1>{this.state.loadedPost.data.content.title}</h1>
+                <h4>{this.state.loadedPost.data.content.title}</h4>
                 <p>{this.state.loadedPost.data.content.content}</p>
                 <div className="Edit">
                     <button className="Delete" onClick={this.deletePostHandler}>Delete</button>

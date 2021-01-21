@@ -24,12 +24,12 @@ class Notes extends Component {
                                         color: '#fa923f',
                                         textDecoration: 'underline'
                                     }}
-                                >Posts</NavLink></li>
+                                >Notes</NavLink></li>
                                 <li><NavLink to={{
                                     pathname: "/new-post",
                                     hash: '#submit',
                                     search: '?quick-submit=true'
-                                }}>New Post</NavLink></li>
+                                }}>New Note</NavLink></li>
                             </ul>
                         </nav>
                     </header>  

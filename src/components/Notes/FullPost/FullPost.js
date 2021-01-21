@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from '../../../axios-orders';
-import { unmountComponentAtNode } from "react-dom";
 
 import { connect } from "react-redux";
 import * as actions from '../../../store/actions/index';
@@ -8,7 +7,6 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 
 import './FullPost.css';
-import { Redirect } from 'react-router-dom';
 
 class FullPost extends Component {
     state = {
@@ -65,8 +63,8 @@ class FullPost extends Component {
         }
         if(this.state.loadedPost){ post = (
             <div className="FullPost">
-                <h1>{this.state.loadedPost.data.title}</h1>
-                <p>{this.state.loadedPost.data.body}</p>
+                <h1>{this.state.loadedPost.data.content.title}</h1>
+                <p>{this.state.loadedPost.data.content.content}</p>
                 <div className="Edit">
                     <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
                 </div>

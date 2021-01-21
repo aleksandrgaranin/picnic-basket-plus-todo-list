@@ -1,100 +1,170 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { connect } from "react-redux";
-import * as actions from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import './NewPost.css';
+import { updateObject, checkValidity } from "../../../shared/utility";
+
+import Input from "../../../components/UI/Input/Input";
+import Button from "../../../components/UI/Button/Button";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+
+import classes from './NewPost.module.css';
 import axios from '../../../axios-orders';
 
-class NewPost extends Component {
-    state = {
-        title: '',
-        content: '',        
-        submitted: false,
-        userId: ''
+const NewPost = (props) => {
+    const [controls, setControls] = useState({
+        title: {
+            elementType: "input",
+            elementConfig: {
+              type: "name",
+              placeholder: "Title",
+            },
+            value: "",
+            validation: {
+              required: true,
+              minLength: 3,
+              maxLength: 100,
+            },
+            valid: false,
+            touched: false,
+          },
+        content: {
+            elementType: "textarea",
+            elementConfig: {
+              type: "textarea",
+              placeholder: "Content",
+            },
+            value: "",
+            validation: {
+              required: true,
+              minLength: 6,
+              maxLength: 1000,
+            },
+            valid: false,
+            touched: false,
+        },        
         
-    };
+    })        
+    const [formIsValid, setFormIsValid] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    queryParams =
-      "?auth=" +
-      this.props.token +
-      '&orderBy="userId"&equalTo="' +
-      this.props.userId +
-      '"';
-
-    componentDidMount(){
-        console.log(this.props);
-    }
-
-    postDadaHandler=()=>{
-        const data ={
-            title: this.state.title,
-            body: this.state.content,
-            userId: this.props.userId
-        }
-        axios.post('/posts.json?auth=' + this.props.token, data)
-            .then(responce=> {
-                console.log(responce);
-                // this.props.history.push('/posts');
-                this.setState({submitted: true});
-            });
-    }
     
-    render () {
-        let redirect = null;
-        if (this.state.submitted){
-            redirect = <Redirect to="/posts" />
-        }
-        return (
-            <div>
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
-                <header>
-                        <nav className="Nav">
-                            <ul>
-                                <li><NavLink 
-                                    to="/posts"
-                                    exact
-                                    activeClassName="my-active"
-                                    activeStyle={{
-                                        color: '#fa923f',
-                                        textDecoration: 'underline'
-                                    }}
-                                >Posts</NavLink></li>
-                            </ul>
-                        </nav>
-                    </header>  
-            <div className="NewPost">
-                {redirect}
-                <h1>Add a Post</h1>
-                <label>Title</label>
-                <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
-                <label>Content</label>
-                <textarea rows="4" value={this.state.content} onChange={(event) => this.setState({content: event.target.value})} />
-                <button onClick={this.postDadaHandler}>Add Post</button>
-            </div>
-            </div>
-        );
-    }
+    const submitHandler = (event) => {
+        event.preventDefault();
+        setLoading(true);
+        const ItemFormData = {};
+        for (let formElementIdentifier in controls) {
+          ItemFormData[formElementIdentifier] =
+            controls[formElementIdentifier].value;
+        }
+        const item = {
+          content: ItemFormData,
+          userId: props.userId,
+        };
+        axios
+          .post("/posts.json?auth=" + props.token, item)
+          .then((response) => {
+            // props.closed()
+            setLoading(false);
+            props.history.push("/posts");
+          })
+          .catch((error) => {
+            console.log(error)
+            setLoading(true);
+          });
+      };
+    const inputChangedHandler = (event, controlName) => {
+        const updatedControls = updateObject(controls, {
+          [controlName]: updateObject(controls[controlName], {
+            value: event.target.value,
+            valid: checkValidity(
+              event.target.value,
+              controls[controlName].validation
+            ),
+            touched: true,
+          }),
+        });
+        let formIsValid = true; // Over all validation
+        for (let inputIdentifier in updatedControls) {
+          formIsValid = updatedControls[inputIdentifier].valid && formIsValid;
+        }
+    
+        setControls(updatedControls);
+        setFormIsValid(formIsValid);
+      };
+
+      const formElementsArrey = [];
+      for (let key in controls) {
+        formElementsArrey.push({
+          id: key,
+          config: controls[key],
+        });
+      }
+
+      let form = formElementsArrey.map((formElement) => (
+        <Input
+          key={formElement.id}
+          elementType={formElement.config.elementType}
+          elementConfig={formElement.config.elementConfig}
+          value={formElement.config.value}
+          invalid={!formElement.config.valid}
+          shouldValidate={formElement.config.validation}
+          touched={formElement.config.touched}
+          changed={(event) => inputChangedHandler(event, formElement.id)}
+        />
+      ));
+    
+      if (props.loading) {
+        form = <Spinner />;
+      }
+    
+      return (
+        <div className={classes.AddItemModal}>
+          <header>
+            <nav className={classes.Nav}>
+              <ul>
+                <li><NavLink 
+                      to="/posts"
+                      exact
+                      activeClassName="my-active"
+                      activeStyle={{
+                        color: '#fa923f',
+                        textDecoration: 'underline'
+                      }}
+                    >Posts</NavLink></li>
+              </ul>
+            </nav>
+          </header> 
+          <p style={{ color: "blueviolet" }}>Add a Post</p>
+          <form className={classes.Form} onSubmit={submitHandler}>
+            {form}
+            <Button btnType="Success" disabled={!formIsValid}>
+              Submit
+            </Button>
+          </form>
+        </div>
+      );
 }
 
 const mapStateToProps = (state) => {
     return {
-      loading: state.ordr.loading,
       token: state.auth.token,
+      loading: state.auth.loading,
+      error: state.auth.error,
+      isAuthenticated: state.auth.token !== null,
       userId: state.auth.userId,
     };
   };
   
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      onFetchOrder: (token, userId) =>
-        dispatch(actions.fetchOrders(token, userId)),
-    };
-  };
+
   
   export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
   )(withErrorHandler(NewPost, axios));

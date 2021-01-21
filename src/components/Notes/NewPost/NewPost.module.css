@@ -65,3 +65,30 @@
 .Nav a.active {
     color: #fa923f;
 }
+
+.AddItemModal {
+    margin: auto;
+    
+    width: auto;
+    text-align: center;   
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.Form {
+    width: 90%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+   
+    border: 1px solid rgb(250, 119, 12);
+    box-shadow: 0 2px 3px #ccc;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+@media (min-width: 600px) {
+    .AddItemModal {
+        width: 30rem;
+    }
+}

@@ -55,6 +55,12 @@ class FullPost extends Component {
             this.props.history.push('/');
         });
     }
+    editPostHandler =()=> {
+        axios.delete(`/posts/${this.props.match.params.id}.json?auth=` + this.props.token)
+        .then(response => { 
+            this.props.history.push('/');
+        });
+    }
 
     render () {
         let post = <p style={{textAlign:'center'}}>Please select a Post!</p>;
@@ -66,7 +72,8 @@ class FullPost extends Component {
                 <h4>{this.state.loadedPost.data.content.title}</h4>
                 <p>{this.state.loadedPost.data.content.content}</p>
                 <div className="Edit">
-                    <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
+                    <button className="Edit" onClick={this.deletePostHandler}>Edit</button>
+                    <button className="Delete" onClick={this.editPostHandler}>Delete</button>
                 </div>
             </div>
 

@@ -4,9 +4,9 @@ import classes from "./NavigationItems.module.css";
 
 const navigationItems = (props) => (
   <ul className={classes.NavigationItems}>
-    {props.isAuthenticated ? (
+    {/* {props.isAuthenticated ? (
       <NavigationItem link="/add">Add Item</NavigationItem>
-    ) : null}
+    ) : null} */}
     {props.isAuthenticated ? (
       <NavigationItem link="/" exact>
         Basket

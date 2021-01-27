@@ -78,6 +78,7 @@ const ItemList = (props) => {
         updatedItems.splice(index, 1);
         setItemList(updatedItems);
         setLoading(false);
+        props.history.push('/');
       })
       .catch((error) => {
         setLoading(true);

@@ -11,6 +11,7 @@ import UpdatePost from './UpdatePost/UpdatePost';
 const FullPost = (props) => {
   const [loadedPost, setLoadedPost] = useState(null);
   const [updatePost, setUpdatePost] = useState(false);
+  const [updated, setUpdated] = useState(false)
 
   const queryParams =
     "?auth=" +
@@ -24,12 +25,13 @@ const FullPost = (props) => {
       if (loadedPost === null || (loadedPost && loadedPost.id !== props.match.params.id)) {
         axios.get(`/posts/${props.match.params.id}.json?auth=` + props.token)
           .then(response => {
-            console.log(response)
+            // console.log(response)
 
             setLoadedPost({
               data: response.data,
               id: props.match.params.id
             })
+            setUpdated(false)
           })
           .catch(error => {
             console.log(error);
@@ -37,8 +39,8 @@ const FullPost = (props) => {
       }
 
     }
-    console.log(props)
-  }, [props.match.params.id]);
+    console.log('Fuul Post')
+  }, [props.match.params.id],[updated]);
 
 
   const deletePostHandler = () => {
@@ -47,16 +49,19 @@ const FullPost = (props) => {
         props.history.push('/');
       });
   }
+
   const editPostHandler = () => {
     setUpdatePost(!updatePost)
   }
 
+  const updateItemInfo = () => {
+    setUpdated(true)
+  }
+
 
   let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
-  if (props.match.params.id) {
-    post = <p style={{ textAlign: 'center' }}>Loading...</p>;
-  }
-  if (loadedPost) {
+  
+  if (loadedPost && !updated) {
     post = (
       <div className="FullPost">
         <h4>{loadedPost.data.content.title}</h4>
@@ -76,6 +81,7 @@ const FullPost = (props) => {
           content={loadedPost.data.content.content}
           updateToggle={editPostHandler}
           renderList={props.isChanged}
+          updateInfo={updateItemInfo}
 
         />
       );

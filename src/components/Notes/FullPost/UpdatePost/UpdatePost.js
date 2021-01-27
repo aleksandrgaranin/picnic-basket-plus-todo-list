@@ -52,7 +52,7 @@ const UpdatePost = (props) => {
     
     useEffect(() => {
         setLoading(false);
-        console.log(props.renderList)
+        // console.log(props.renderList)
     }, []);
 
     const submitHandler = (event) => {
@@ -67,11 +67,13 @@ const UpdatePost = (props) => {
           content: ItemFormData,
           userId: props.userId,
         };
+        
         axios
           .put(`/posts/${props.id}.json?auth=` + props.token, item)
           .then((response) => {
             // props.closed()
             setLoading(true);
+            props.updateInfo();
             props.updateToggle();
             props.renderList()
           })

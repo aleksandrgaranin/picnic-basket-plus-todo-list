@@ -40,7 +40,7 @@ const Posts = (props) => {
         setPostList(fetchedList);
         setLoading(false);
         setIsChanged(false);
-        console.log(isChanged);
+        // console.log(isChanged);
       }).catch(error => {
         setLoading(true);
         console.log(error);

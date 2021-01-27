@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Post from './Post/Post';
 import { Route } from 'react-router-dom';
 import FullPost from '../FullPost/FullPost';
+import Spinner from '../../UI/Spinner/Spinner';
 import axios from '../../../axios-orders';
 import './Posts.css';
 
@@ -10,82 +11,94 @@ import * as actions from "../../../store/actions/index";
 
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 
-class Posts extends Component {
-    state = {
-        posts: []        
-    }
-    queryParams =
-      "?auth=" +
-      this.props.token +
-      '&orderBy="userId"&equalTo="' +
-      this.props.userId +
-      '"';
+const Posts = (props) => {
+  const [postList, setPostList] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isChanged, setIsChanged] = useState(false);
 
-    componentDidMount(){
-        console.log(this.props);
-        axios.get('/posts.json' + this.queryParams)
-            .then(res => {
-                console.log(res)
-                let posts = [];
-                for (let key in res.data) {
-                    posts.push({
-                        ...res.data[key],
-                        id: key,
-                    });
-                }
-                this.setState({posts:posts});
-            }).catch(error => {
-                console.log(error);
-            });
-        
-    }
 
-    postSelectedHandler = (id)=> {
-        this.props.history.push({pathname: '/posts/' + id});
-    }
+  
 
-    render(){
-        let posts = <p style={{textAlign:'center'}}>Something went wrong!</p>;
-        if (!this.state.error){
-            posts = this.state.posts.map(post => {
-                return (
-                <Post     
-                    key={post.id}                    
-                    title={post.content.title}
-                    clicked={()=> this.postSelectedHandler(post.id)
-                }
-                />
-            );
-        })
+  useEffect(() => {
+    const queryParams =
+    "?auth=" +
+    props.token +
+    '&orderBy="userId"&equalTo="' +
+    props.userId +
+    '"';
+    console.log(props);
+    axios.get('/posts.json' + queryParams)
+      .then(res => {
+        console.log(res)
+        let fetchedList = [];
+        for (let key in res.data) {
+          fetchedList.push({
+            ...res.data[key],
+            id: key,
+          });
         }
-        return(
-            <div>
-                <section className="Posts">
-                    {posts}
-                </section>
-                <Route path={this.props.match.url + '/:id'} exact component={FullPost}/>      
-            </div>             
-        );
-    }
+        setPostList(fetchedList);
+        setLoading(false);
+        setIsChanged(false);
+        console.log(isChanged);
+      }).catch(error => {
+        setLoading(true);
+        console.log(error);
+      });
+  }, [isChanged]);
+
+
+  const postSelectedHandler = (id) => {
+    props.history.push({ pathname: '/posts/' + id });
+  };
+
+  const isChangedHandler = () => {
+    setIsChanged(true);
+  };
+
+
+  let posts = <Spinner />
+  if (!loading && postList) {
+    posts = postList.map(post => {
+      return (
+        <Post
+          key={post.id}
+          title={post.content.title}
+          isChanged={isChangedHandler}
+          clicked={() => postSelectedHandler(post.id)          
+          }
+        />
+      );
+    })
+  }
+  return (
+    <div>
+      <section className="Posts">
+        {posts}
+      </section>
+      <Route path={props.match.url + '/:id'} exact render={props => (<FullPost {...props} isChanged={isChangedHandler}/>)} />
+        
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {
-    return {
-      loading: state.ordr.loading,
-      token: state.auth.token,
-      userId: state.auth.userId,
-    };
+  return {
+    loading: state.ordr.loading,
+    token: state.auth.token,
+    userId: state.auth.userId,
+  };
 };
-  
+
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-      onFetchOrder: (token, userId) =>
-        dispatch(actions.fetchOrders(token, userId)),
-    };
+  return {
+    onFetchOrder: (token, userId) =>
+      dispatch(actions.fetchOrders(token, userId)),
   };
-  
+};
+
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withErrorHandler(Posts, axios));
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(Posts, axios));

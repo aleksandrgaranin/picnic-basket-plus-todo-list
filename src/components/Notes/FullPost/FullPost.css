@@ -21,7 +21,7 @@
     display: flexbox;
     flex-wrap: initial;
     color: rgb(0, 0, 0);
-    margin-bottom: 7px;
+    margin: 7px;
 }
 
 .Edit button {

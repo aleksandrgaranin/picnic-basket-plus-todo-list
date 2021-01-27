@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Posts from '../../components/Notes/Posts/Posts';
 import { BrowserRouter, Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import NewPost from '../../components/Notes/NewPost/NewPost';
+import UpdatePost from '../../components/Notes/FullPost/UpdatePost/UpdatePost';
+
 import './Notes.css';
 
 // const NewPost = React.lazy(() => {
@@ -36,7 +38,7 @@ class Notes extends Component {
                     <BrowserRouter>
                         <Switch>
                             <Route path="/new-post" component={NewPost}/>
-                            <Route path="/posts"  component={Posts}/>
+                            <Route path="/posts"  component={Posts}/>s                            
                             <Redirect from="/" to="/posts"/>
                         </Switch>    
                     </BrowserRouter>                  

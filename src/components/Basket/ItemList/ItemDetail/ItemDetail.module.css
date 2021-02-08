@@ -21,7 +21,7 @@
 }
 
 .ItemDetailsShort {
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   color: darkblue;
@@ -32,9 +32,9 @@
 }
 
 .ItemDetailsShort p {
-  width: 50%;
-  display: flex;
-  flex-flow: column;
+  width: 35%;
+  /* display: flex;
+  flex-flow: column; */
   justify-content: center;
   padding: 3px;
   margin-left: 3px;
@@ -44,7 +44,7 @@
 }
 
 .ItemName {
-  width: 250px;
+  width: 79%;
   /* display: flex;
   flex-flow: column; */
   justify-content: center;

@@ -26,10 +26,10 @@ const Posts = (props) => {
     '&orderBy="userId"&equalTo="' +
     props.userId +
     '"';
-    console.log(props);
+    // console.log(props);
     axios.get('/posts.json' + queryParams)
       .then(res => {
-        console.log(res)
+        // console.log(res)
         let fetchedList = [];
         for (let key in res.data) {
           fetchedList.push({

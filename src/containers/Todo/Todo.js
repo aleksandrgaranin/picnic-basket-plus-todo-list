@@ -65,7 +65,7 @@ class Todo extends Component {
             id: key,
           });
         }
-        console.log(todoData)
+        // console.log(todoData)
         this.setState({
           todoList: todoData,
         });
@@ -78,8 +78,8 @@ class Todo extends Component {
   handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-    console.log(name, value);
-    console.log(this.state.activeItem)
+    // console.log(name, value);
+    // console.log(this.state.activeItem)
 
     this.setState({
       activeItem: {
@@ -87,7 +87,7 @@ class Todo extends Component {
         title: value,
       },
     });
-    console.log(this.state)
+    // console.log(this.state)
   }
 
   handleSubmit(event) {
@@ -151,7 +151,7 @@ class Todo extends Component {
 
   strikeUnstrike(task) {
     task.completed = !task.completed;
-    console.log("Task:", task);
+    // console.log("Task:", task);
     axios
       .put(
         `/todolist/${task.id}.json?auth=` + this.props.token,

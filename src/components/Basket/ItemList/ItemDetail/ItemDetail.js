@@ -28,7 +28,7 @@ const ItemDetail = (props) => {
 
   let detail = (
     <div className={classes.ItemDetailsShort}>
-      <p style={{ color: "blueviolet" }}>{props.name}</p>
+      <div className={classes.ItemName}>{props.name}</div>
       <p style={{ color: color(props.category) }}>{props.category.toUpperCase()}</p>
     </div>
   );

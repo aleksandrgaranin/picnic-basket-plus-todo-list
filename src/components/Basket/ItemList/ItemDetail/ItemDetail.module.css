@@ -10,36 +10,50 @@
 }
 
 .ItemDetailsLong p {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   padding: 5px;
   margin: 0;
-  text-overflow: clip;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ItemDetailsShort {
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   color: darkblue;
   justify-content: center;
-  text-align: center;
+  text-align: left;
   margin: 0px;
   padding: 0px;
 }
 
 .ItemDetailsShort p {
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   padding: 3px;
-  margin: 0;
-  text-overflow: clip;
+  margin-left: 3px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ItemName {
+  width: 250px;
+  /* display: flex;
+  flex-flow: column; */
+  justify-content: center;
+  padding: 3px;
+  margin-left: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: blueviolet
 }
 
 .Buttons {

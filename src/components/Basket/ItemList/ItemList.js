@@ -15,14 +15,14 @@ const ItemList = (props) => {
   const [loading, setLoading] = useState(true);
 
   const [isChanged, setIsChanged] = useState(false);
+  const queryParams =
+    "?auth=" +
+    props.token +
+    '&orderBy="userId"&equalTo="' +
+    props.userId +
+    '"';
 
   useEffect(() => {
-    const queryParams =
-      "?auth=" +
-      props.token +
-      '&orderBy="userId"&equalTo="' +
-      props.userId +
-      '"';
     axios
       .get("/list.json" + queryParams)
       .then((res) => {
@@ -92,7 +92,7 @@ const ItemList = (props) => {
   let list = <Spinner />;
   if (!loading && itemList) {
     list = itemList.map((item, index) => (
-      <section className={classes.IngredientList} key={item.id}>
+      <section className={classes.ItemList} key={item.id}>
         <ul>
           <li>
             <Item

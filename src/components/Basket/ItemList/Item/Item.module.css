@@ -1,20 +1,47 @@
-.Item {
+.ItemRow {
   width: 100%;
   display: flex;
-  flex-flow: column;
-  justify-content: space-between;
+  flex-flow: row;
+  justify-content: space-evenly;
 
-  border: 1px solid rgb(250, 119, 12);
-  box-shadow: 0 2px 3px #ccc;
-  padding: 10px;
-  margin: 10px auto;
+  /* border-bottom: 1px solid rgb(250, 119, 12); */
+  box-shadow: 0 2px 3px rgb(250, 119, 12, 0.5);
+  padding: 7px;
+  margin: 3px;
 }
 
-.Item p {
+.ItemCol {
   width: 100%;
   display: flex;
   flex-flow: column;
+  justify-content: space-evenly;
+  /* border: 1px solid rgb(250, 119, 12); */
+  box-shadow: 0 2px 3px rgb(250, 119, 12, 0.5);
+  padding: 5px;
+  margin: 5px;
+}
+
+.ItemButtonShort {
+  display: flex;
+  flex-flow: column;
+  width: 20%;
   justify-content: center;
+  text-align: center;
   padding: 0px;
-  margin: 0;
+  margin: 0px;
+}
+/* 
+.ItemButtonShort button p {
+  width: auto;
+  height: auto;
+  justify-content: center;
+  text-align: center;
+} */
+
+.ItemButtonLong {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
 }

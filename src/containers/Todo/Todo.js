@@ -166,7 +166,7 @@ class Todo extends Component {
       <div className="container">
         <div className={classes.TaskContainer}>
           <div className={classes.FormWrapper}>
-            <form if="form" onSubmit={this.handleSubmit}>
+            <form id="form" onSubmit={this.handleSubmit}>
               <div className={classes.FlexWrapper}>
                 <div style={{ flex: 6 }}>
                   <input

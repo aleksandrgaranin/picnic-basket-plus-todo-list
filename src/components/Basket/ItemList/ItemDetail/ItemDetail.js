@@ -23,11 +23,11 @@ const ItemDetail = (props) => {
       default:
         return "gray";
     }
-    
+
   };
 
   let detail = (
-    <div className={classes.ItemDetails}>
+    <div className={classes.ItemDetailsShort}>
       <p style={{ color: "blueviolet" }}>{props.name}</p>
       <p style={{ color: color(props.category) }}>{props.category.toUpperCase()}</p>
     </div>
@@ -45,15 +45,15 @@ const ItemDetail = (props) => {
   if (props.show) {
     detail = (
       <div>
-        <div className={classes.ItemDetails}>
+        <div className={classes.ItemDetailsLong}>
           <p style={{ color: "blueviolet" }}>Name: {props.name}</p>
           <p style={{ color: color(props.category) }}>{props.category.toUpperCase()}</p>
         </div>
-        <div className={classes.ItemDetails}>
+        <div className={classes.ItemDetailsLong}>
           <p>Price: ${props.price}</p>
           <p>Qty: {props.quantity}</p>
         </div>
-        <div className={classes.ItemDetails}>
+        <div className={classes.ItemDetailsLong}>
           <p>NOTE: {props.note}</p>
         </div>
         {purchased}

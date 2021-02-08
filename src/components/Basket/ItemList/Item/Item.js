@@ -23,7 +23,7 @@ const Item = (props) => {
 
   return (
     <Aux>
-      <div className={classes.Item}>
+      <div className={showDetails ? classes.ItemCol : classes.ItemRow}>
         <ItemDetail
           key={props.id}
           {...props}
@@ -33,9 +33,11 @@ const Item = (props) => {
           delete={props.deletePost}
           update={itemUpdateHandler}
         />
-        <Button btnType="Success" clicked={showDetatilsHandler}>
-          {!showDetails ? <p>MORE DETAILS</p> : <p>LESS DETAILS</p>}
-        </Button>
+        <div className={!showDetails?classes.ItemButtonShort : classes.ItemButtonLong}>
+          <Button btnType="Success" clicked={showDetatilsHandler}>
+            {!showDetails ? <p>MORE</p> : <p>LESS </p>}
+          </Button>
+        </div>
       </div>
     </Aux>
   );

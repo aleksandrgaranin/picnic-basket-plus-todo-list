@@ -13,12 +13,6 @@ const FullPost = (props) => {
   const [updatePost, setUpdatePost] = useState(false);
   const [updated, setUpdated] = useState(false)
 
-  const queryParams =
-    "?auth=" +
-    props.token +
-    '&orderBy="userId"&equalTo="' +
-    props.userId +
-    '"';
 
   useEffect(() => {
     if (props.match.params.id) {
@@ -39,7 +33,7 @@ const FullPost = (props) => {
       }
 
     }
-    console.log('Fuul Post')
+    console.log('Full Post')
   }, [props.match.params.id],[updated]);
 
 

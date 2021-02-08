@@ -13,8 +13,8 @@
     flex-flow: column;
     justify-content: space-between;
    
-    border: 1px solid rgb(250, 119, 12);
-    box-shadow: 0 2px 3px #ccc;
+    box-shadow: 0 0.2rem 0.5rem rgb(250, 119, 12, 0.5);
+
     padding: 10px;
     margin: 10px auto;
 }

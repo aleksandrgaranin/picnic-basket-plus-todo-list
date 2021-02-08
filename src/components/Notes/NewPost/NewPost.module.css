@@ -1,94 +1,49 @@
-/* .NewPost {
-    width: 80%;
-    margin: 20px auto;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 3px #ccc;
-    text-align: center;
-}
-
-.NewPost label {
-    display: block;
-    margin: 10px auto;
-    text-align: center;
-    font-weight: bold;
-}
-
-.NewPost input,
-.NewPost textarea,
-.NewPost select {
-    display: block;
-    width: 80%;
-    box-sizing: border-box;
-    border: 1px solid black;
-    outline: none;
-    font: inherit;
-    margin: auto;
-}
-
-.NewPost button {
-    margin: 5px 0;
-    padding: 10px;
-    font: inherit;
-    border: 1px solid #fa923f;
-    background-color: transparent;
-    color: #fa923f;
-    cursor: pointer;
-}
-
-.NewPost button:hover,
-.NewPost button:active {
-    color: white;
-    background-color: #fa923f;
-} */
-
 
 .Nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    text-align: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .Nav li {
-    display: inline-block;
-    margin: 20px;
+  display: inline-block;
+  margin: 20px;
 }
 
 .Nav a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .Nav a:hover,
 .Nav a:active,
 .Nav a.active {
-    color: #fa923f;
+  color: #fa923f;
 }
 
 .AddItemModal {
-    margin: auto;
-    
-    width: auto;
-    text-align: center;   
-    padding: 10px;
-    box-sizing: border-box;
+  margin: auto;
+
+  width: auto;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .Form {
-    width: 90%;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-   
-    border: 1px solid rgb(250, 119, 12);
-    box-shadow: 0 2px 3px #ccc;
-    padding: 10px;
-    margin: 10px auto;
+  width: 90%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  box-shadow: 0 0.2rem 0.5rem rgb(250, 119, 12, 0.5);
+  padding: 10px;
+  margin: 10px auto;
 }
 
 @media (min-width: 600px) {
-    .AddItemModal {
-        width: 30rem;
-    }
+  .AddItemModal {
+    width: 30rem;
+  }
 }

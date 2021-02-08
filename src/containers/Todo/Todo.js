@@ -65,6 +65,7 @@ class Todo extends Component {
             id: key,
           });
         }
+        console.log(todoData)
         this.setState({
           todoList: todoData,
         });
@@ -78,6 +79,7 @@ class Todo extends Component {
     const name = event.target.name;
     const value = event.target.value;
     console.log(name, value);
+    console.log(this.state.activeItem)
 
     this.setState({
       activeItem: {
@@ -85,12 +87,13 @@ class Todo extends Component {
         title: value,
       },
     });
+    console.log(this.state)
   }
 
   handleSubmit(event) {
     event.preventDefault();
     let url = `/todolist.json?auth=`;
-    
+
     if (this.state.editing === true) {
       url = `/todolist/${this.state.activeItem.id}.json?auth=`;
       this.setState({
@@ -110,25 +113,27 @@ class Todo extends Component {
           });
         })
         .catch((err) => console.log("ERROR:", err));
+    } else {
+
+      axios
+        .post(url + this.props.token, this.state.activeItem)
+        .then((res) => {
+          this.fetchTasks();
+          this.setState({
+            activeItem: {
+              identifier: null,
+              title: "",
+              completed: false,
+              userId: this.props.userId,
+            },
+          });
+        })
+        .catch((err) => console.log("ERROR:", err));
     }
 
-    axios
-      .post(url + this.props.token, this.state.activeItem)
-      .then((res) => {
-        this.fetchTasks();
-        this.setState({
-          activeItem: {
-            identifier: null,
-            title: "",
-            completed: false,
-            userId: this.props.userId,
-          },
-        });
-      })
-      .catch((err) => console.log("ERROR:", err));
   }
 
-  startEdit(task) {
+  startEdit(task) {    
     this.setState({
       activeItem: task,
       editing: true,
@@ -146,7 +151,7 @@ class Todo extends Component {
 
   strikeUnstrike(task) {
     task.completed = !task.completed;
-    console.log("Task:", task.completed);
+    console.log("Task:", task);
     axios
       .put(
         `/todolist/${task.id}.json?auth=` + this.props.token,
@@ -193,7 +198,7 @@ class Todo extends Component {
           <div id="list-wrapper">
             {tasks.map((task, index) => {
               return (
-                <div key={index} className={classes.TaskWrapper }>
+                <div key={index} className={classes.TaskWrapper}>
                   <div
                     onClick={() => self.strikeUnstrike(task)}
                     style={{ flex: 7 }}
@@ -201,8 +206,8 @@ class Todo extends Component {
                     {!task.completed ? (
                       <span>{task.title}</span>
                     ) : (
-                      <strike>{task.title}</strike>
-                    )}
+                        <strike>{task.title}</strike>
+                      )}
                   </div>
                   <div style={{ flex: 1 }}>
                     <button

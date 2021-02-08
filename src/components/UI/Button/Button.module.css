@@ -5,14 +5,14 @@
     outline: none;
     cursor: pointer;
     font: inherit;
-    padding: 5px;
+    padding: 2px;
     font-weight: bold;
 }
-
+/* 
 .Button:first-of-type {
-    margin: 0;
-    padding: 0;
-}
+    margin: 5px;
+    padding: 5px;
+} */
 
 .Button:disabled {
     color: #ccc;
@@ -20,14 +20,20 @@
 }
 
 .Success {
+    /* padding: 5px; */
     color: #5C9210;
+    border: 1px solid #5C9210;
 }
 
 .Danger {
+    /* padding: 5px; */
     color: #944317;
+    border: 1px solid #944317;
 }
 
 
 .Warning {
+    /* padding: 5px; */
     color: #a77802;
+    border: 1px solid #a77802;
 }

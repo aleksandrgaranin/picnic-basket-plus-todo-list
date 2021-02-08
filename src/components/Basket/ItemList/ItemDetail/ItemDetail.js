@@ -59,7 +59,7 @@ const ItemDetail = (props) => {
         {purchased}
         <hr />
         <div className={classes.Buttons}>
-          <Button btnType="Warning" clicked={props.purchaseItem}>
+          <Button btnType="Warning"  clicked={props.purchaseItem}>
             PURCHASED
           </Button>
           <Button btnType="Success" clicked={props.update}>

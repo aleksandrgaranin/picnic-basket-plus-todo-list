@@ -44,4 +44,8 @@
   text-align: center;
   padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid green;
+}
+.ItemButtonLong button {
+  border: none
 }

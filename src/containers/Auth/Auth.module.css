@@ -12,6 +12,9 @@
     display: flex;
     flex-flow: column;
 }
+.Auth button {
+    border: none;
+}
 
 @media (min-width: 600px) {
     .Auth {

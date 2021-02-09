@@ -35,7 +35,7 @@ const Item = (props) => {
         />
         <div className={!showDetails?classes.ItemButtonShort : classes.ItemButtonLong}>
           <Button btnType="Success" clicked={showDetatilsHandler}>
-            {!showDetails ? <p>MORE</p> : <p>LESS </p>}
+            {!showDetails ? <p>MORE</p> : <p>LESS</p>}
           </Button>
         </div>
       </div>
